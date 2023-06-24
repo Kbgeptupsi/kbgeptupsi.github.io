@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>REGISTRAR PACIENTES</title>
+    <style>
+        /* Estilos del formulario */
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .form-group input[type="text"],
+        .form-group input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        .form-group textarea {
+            width: 100%;
+            height: 80px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        .form-group button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        /* Estilos de la tabla */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #4CAF50;
+            color: #fff;
+        }
+
+        h2{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2 text-align="center">REGISTRAR PACIENTE</h2>
+    <form id="myForm">
+        <div class="form-group">
+            <label for="nombres">Nombres:</label>
+            <input type="text" id="nombres" name="nombres" required>
+        </div>
+        <div class="form-group">
+            <label for="apellidos">Apellidos:</label>
+            <input type="text" id="apellidos" name="apellidos" required>
+        </div>
+        <div class="form-group">
+            <label for="edad">Edad:</label>
+            <input type="number" id="edad" name="edad" required>
+        </div>
+        <div class="form-group">
+            <label for="fobia">Tipo de fobia:</label>
+            <input type="text" id="fobia" name="fobia" required>
+        </div>
+        <div class="form-group">
+            <label for="celular">Número de celular:</label>
+            <input type="text" id="celular" name="celular" required>
+        </div>
+        <div class="form-group">
+            <label for="direccion">Dirección:</label>
+            <textarea id="direccion" name="direccion" required></textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" id="btnAgregar">Agregar</button>
+            <button type="submit" id="btnActualizar" style="display: none;">Actualizar</button>
+        </div>
+    </form>
+
+    <h2>Registros</h2>
+    <table id="tablaRegistros">
+        <thead>
+            <tr>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Edad</th>
+                <th>Tipo de fobia</th>
+                <th>Número de celular</th>
+                <th>Dirección</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tbodyRegistros">
+        </tbody>
+    </table>
+
+    <script>
+        // Variables globales
+        var registros = [];
+        var currentIndex = -1;
+        var btnAgregar = document.getElementById("btnAgregar");
+        var btnActualizar = document.getElementById("btnActualizar");
+
+        // Función para agregar un registro
+        function agregarRegistro(event) {
+            event.preventDefault();
+
+            var nombres = document.getElementById("nombres").value;
+            var apellidos = document.getElementById("apellidos").value;
+            var edad = document.getElementById("edad").value;
+            var fobia = document.getElementById("fobia").value;
+            var celular = document.getElementById("celular").value;
+            var direccion = document.getElementById("direccion").value;
+
+            var registro = {
+                nombres: nombres,
+                apellidos: apellidos,
+                edad: edad,
+                fobia: fobia,
+                celular: celular,
+                direccion: direccion
+            };
+
+            registros.push(registro);
+            limpiarFormulario();
+            mostrarRegistros();
+        }
+
+        // Función para limpiar el formulario
+        function limpiarFormulario() {
+            document.getElementById("myForm").reset();
+        }
+
+        // Función para mostrar los registros en la tabla
+        function mostrarRegistros() {
+            var tbody = document.getElementById("tbodyRegistros");
+            tbody.innerHTML = "";
+
+            for (var i = 0; i < registros.length; i++) {
+                var registro = registros[i];
+
+                var row = tbody.insertRow();
+
+                var cellNombres = row.insertCell();
+                cellNombres.innerHTML = registro.nombres;
+
+                var cellApellidos = row.insertCell();
+                cellApellidos.innerHTML = registro.apellidos;
+
+                var cellEdad = row.insertCell();
+                cellEdad.innerHTML = registro.edad;
+
+                var cellFobia = row.insertCell();
+                cellFobia.innerHTML = registro.fobia;
+
+                var cellCelular = row.insertCell();
+                cellCelular.innerHTML = registro.celular;
+
+                var cellDireccion = row.insertCell();
+                cellDireccion.innerHTML = registro.direccion;
+
+                var cellAcciones = row.insertCell();
+                cellAcciones.innerHTML = "<button onclick='editarRegistro(" + i + ")'>Editar</button> " +
+                                         "<button onclick='eliminarRegistro(" + i + ")'>Eliminar</button>";
+            }
+        }
+
+        // Función para editar un registro
+        function editarRegistro(index) {
+            var registro = registros[index];
+            currentIndex = index;
+
+            document.getElementById("nombres").value = registro.nombres;
+            document.getElementById("apellidos").value = registro.apellidos;
+            document.getElementById("edad").value = registro.edad;
+            document.getElementById("fobia").value = registro.fobia;
+            document.getElementById("celular").value = registro.celular;
+            document.getElementById("direccion").value = registro.direccion;
+
+            btnAgregar.style.display = "none";
+            btnActualizar.style.display = "inline";
+        }
+
+        // Función para actualizar un registro
+        function actualizarRegistro(event) {
+            event.preventDefault();
+
+            var nombres = document.getElementById("nombres").value;
+            var apellidos = document.getElementById("apellidos").value;
+            var edad = document.getElementById("edad").value;
+            var fobia = document.getElementById("fobia").value;
+            var celular = document.getElementById("celular").value;
+            var direccion = document.getElementById("direccion").value;
+
+            registros[currentIndex].nombres = nombres;
+            registros[currentIndex].apellidos = apellidos;
+            registros[currentIndex].edad = edad;
+            registros[currentIndex].fobia = fobia;
+            registros[currentIndex].celular = celular;
+            registros[currentIndex].direccion = direccion;
+
+            limpiarFormulario();
+            mostrarRegistros();
+
+            currentIndex = -1;
+            btnAgregar.style.display = "inline";
+            btnActualizar.style.display = "none";
+        }
+
+        // Función para eliminar un registro
+        function eliminarRegistro(index) {
+            registros.splice(index, 1);
+            mostrarRegistros();
+        }
+
+        // Event listeners
+        document.getElementById("myForm").addEventListener("submit", agregarRegistro);
+        btnActualizar.addEventListener("click", actualizarRegistro);
+    </script>
+</body>
+</html>

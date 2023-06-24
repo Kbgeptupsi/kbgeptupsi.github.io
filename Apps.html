@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Carrusel y Boton</title>
+    <style>
+        .carousel {
+            width: 600px;
+            height: 400px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .carousel-inner {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        
+        .carousel-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .carousel-slide {
+            flex: 0 0 100%;
+        }
+        
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to bottom right, #F7D6E0, #E1F1E4);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #333;
+        }
+        
+        .content {
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #FFB6C1;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wave"></div>
+    <div class="content">
+
+    
+    <div class="carousel">
+        <h1>Herramientas utilizadas</h1>
+        <div class="carousel-inner">
+            <div class="carousel-slide">
+                <img src="https://images.pexels.com/photos/1591061/pexels-photo-1591061.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Imagen 1">
+            </div>
+            <div class="carousel-slide">
+                <img src="https://images.pexels.com/photos/270348/pexels-photo-270348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Imagen 2">
+            </div>
+            <div class="carousel-slide">
+                <img src="https://images.pexels.com/photos/6153354/pexels-photo-6153354.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Imagen 3">
+            </div>
+        </div>
+    </div>
+    
+    <a href="app.pdf" class="button" target="_blank">Ver PDF</a>
+
+    <script>
+        const carouselInner = document.querySelector('.carousel-inner');
+        let currentIndex = 0;
+        const slides = carouselInner.querySelectorAll('.carousel-slide');
+        const totalSlides = slides.length;
+        const slideWidth = slides[0].offsetWidth;
+
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            carouselInner.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+        }, 3000);
+    </script>
+    </div>
+</body>
+</html>
